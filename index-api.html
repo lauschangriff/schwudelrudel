@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schwudel Rudel 2026 - API Version</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+        }
+
+        .trip-dates {
+            text-align: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            color: #666;
+            font-size: 18px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        #map {
+            width: 100%;
+            height: 600px;
+            margin: 0;
+        }
+
+        .table-container {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        tr.not-available {
+            opacity: 0.5;
+            background-color: #f5f5f5;
+        }
+
+        tr.not-available td {
+            color: #999;
+        }
+
+        .not-available-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .location-cell {
+            font-size: 14px;
+        }
+
+        .city {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .region {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .coordinates {
+            color: #999;
+            font-size: 12px;
+            font-family: monospace;
+        }
+
+        .capacity-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #667eea;
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .amenities {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .amenity-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            margin: 2px;
+            font-size: 11px;
+        }
+
+        .property-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .property-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-coords {
+            color: #dc3545;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .vote-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .vote-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: transform 0.1s;
+        }
+
+        .vote-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .vote-btn.yes {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .vote-btn.maybe {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .vote-btn.no {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .user-input {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .user-input input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background-color: #f8f9fa;
+            margin: 20px 30px;
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-input">
+        <label>Your Name:</label>
+        <input type="text" id="userName" placeholder="Enter your name" />
+    </div>
+
+    <div class="container">
+        <h1>🏖️ Schwudel Rudel - 2026</h1>
+        <div class="trip-dates">
+            📅 Mai 23, 2026 - Juni 6, 2026
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="total-properties">0</div>
+                <div class="stat-label">Total Properties</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="with-coords">0</div>
+                <div class="stat-label">With Coordinates</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="max-capacity">0</div>
+                <div class="stat-label">Max Capacity</div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="table-container">
+            <h2>Property Details</h2>
+            <div id="loading" class="loading">Loading properties...</div>
+            <table id="properties-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Property Name</th>
+                        <th>Location</th>
+                        <th>Capacity</th>
+                        <th>Bedrooms</th>
+                        <th>Bathrooms</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Amenities</th>
+                        <th>Vote</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        let currentUser = localStorage.getItem('userName') || '';
+
+        // Set saved username
+        if (currentUser) {
+            document.getElementById('userName').value = currentUser;
+        }
+
+        // Save username on change
+        document.getElementById('userName').addEventListener('change', (e) => {
+            currentUser = e.target.value;
+            localStorage.setItem('userName', currentUser);
+        });
+
+        // Fetch properties from backend
+        async function loadProperties() {
+            try {
+                const response = await fetch(`${API_URL}/properties`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch properties');
+                }
+                const properties = await response.json();
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('properties-table').style.display = 'table';
+                processProperties(properties);
+            } catch (error) {
+                console.error('Error loading properties:', error);
+                document.getElementById('loading').innerHTML =
+                    '<p style="color: red;">⚠️ Failed to load properties. Make sure the backend server is running at http://localhost:3000</p>';
+            }
+        }
+
+        // Vote for a property
+        async function vote(propertyId, propertyName, voteValue) {
+            if (!currentUser) {
+                alert('Please enter your name first!');
+                document.getElementById('userName').focus();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/vote`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        propertyId,
+                        userId: currentUser.toLowerCase().replace(/\s+/g, '_'),
+                        userName: currentUser,
+                        vote: voteValue
+                    })
+                });
+
+                if (response.ok) {
+                    alert(`✅ Vote recorded: ${voteValue} for ${propertyName}`);
+                } else {
+                    alert('❌ Failed to record vote');
+                }
+            } catch (error) {
+                console.error('Error voting:', error);
+                alert('❌ Failed to record vote');
+            }
+        }
+
+        // Process properties
+        function processProperties(properties) {
+            // Initialize map centered on Italy/Croatia region
+            const map = L.map('map').setView([44.0, 13.0], 6);
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Custom icon
+            const customIcon = L.icon({
+                iconUrl: 'data:image/svg+xml;base64,' + btoa(`
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="42" viewBox="0 0 32 42">
+                        <path fill="#667eea" stroke="#fff" stroke-width="2" d="M16 0C7.2 0 0 7.2 0 16c0 8.8 16 26 16 26s16-17.2 16-26C32 7.2 24.8 0 16 0z"/>
+                        <circle cx="16" cy="16" r="6" fill="#fff"/>
+                    </svg>
+                `),
+                iconSize: [32, 42],
+                iconAnchor: [16, 42],
+                popupAnchor: [0, -42]
+            });
+
+            // Add markers for properties with coordinates
+            const markers = [];
+            let withCoords = 0;
+            let maxCapacity = 0;
+
+            properties.forEach(property => {
+                if (property.location.lat && property.location.lng) {
+                    withCoords++;
+                    const marker = L.marker([property.location.lat, property.location.lng], { icon: customIcon })
+                        .addTo(map);
+
+                    const popupContent = `
+                        <div style="font-size: 14px;">
+                            <div style="font-weight: 600; font-size: 16px; margin-bottom: 8px;">${property.name}</div>
+                            <div style="color: #666; margin-bottom: 8px;">${property.location.city || ''}, ${property.location.region || ''}</div>
+                            ${property.capacity ? `<div style="color: #667eea; font-weight: 600; margin-bottom: 8px;">👥 ${property.capacity}</div>` : ''}
+                            ${property.bedrooms ? `<div>🛏️ ${property.bedrooms} bedrooms</div>` : ''}
+                            <a href="${property.url}" target="_blank" style="display: inline-block; margin-top: 8px; padding: 6px 12px; background-color: #667eea; color: white; text-decoration: none; border-radius: 4px; font-size: 12px;">View Listing →</a>
+                        </div>
+                    `;
+
+                    marker.bindPopup(popupContent);
+                    markers.push(marker);
+                }
+
+                // Calculate max capacity
+                if (property.capacity) {
+                    const capacityNum = parseInt(property.capacity.toString().match(/\d+/));
+                    if (capacityNum > maxCapacity) maxCapacity = capacityNum;
+                }
+            });
+
+            // Fit map to show all markers
+            if (markers.length > 0) {
+                const group = L.featureGroup(markers);
+                map.fitBounds(group.getBounds().pad(0.1));
+            }
+
+            // Update stats
+            document.getElementById('total-properties').textContent = properties.length;
+            document.getElementById('with-coords').textContent = withCoords;
+            document.getElementById('max-capacity').textContent = maxCapacity;
+
+            // Populate table
+            const tableBody = document.getElementById('table-body');
+
+            properties.forEach(property => {
+                const row = document.createElement('tr');
+
+                // Add class if property is not available
+                if (property.state === 'not available') {
+                    row.classList.add('not-available');
+                }
+
+                // Property Name
+                const nameCell = document.createElement('td');
+                nameCell.textContent = property.name;
+                if (property.state === 'not available') {
+                    nameCell.innerHTML = property.name + ' <span class="not-available-badge">Not Available</span>';
+                }
+                row.appendChild(nameCell);
+
+                // Location
+                const locationCell = document.createElement('td');
+                locationCell.className = 'location-cell';
+                const locationParts = [];
+                if (property.location.city) locationParts.push(`<span class="city">${property.location.city}</span>`);
+                if (property.location.region) locationParts.push(`<span class="region">${property.location.region}</span>`);
+                if (property.location.country) locationParts.push(`<span class="region">${property.location.country}</span>`);
+                locationCell.innerHTML = locationParts.join(', ');
+
+                if (property.location.lat && property.location.lng) {
+                    locationCell.innerHTML += `<br><span class="coordinates">${property.location.lat.toFixed(4)}, ${property.location.lng.toFixed(4)}</span>`;
+                } else {
+                    locationCell.innerHTML += `<br><span class="no-coords">No coordinates</span>`;
+                }
+                row.appendChild(locationCell);
+
+                // Capacity
+                const capacityCell = document.createElement('td');
+                if (property.capacity) {
+                    capacityCell.innerHTML = `<span class="capacity-badge">${property.capacity}</span>`;
+                } else {
+                    capacityCell.textContent = '-';
+                }
+                row.appendChild(capacityCell);
+
+                // Bedrooms
+                const bedroomsCell = document.createElement('td');
+                bedroomsCell.textContent = property.bedrooms || '-';
+                row.appendChild(bedroomsCell);
+
+                // Bathrooms
+                const bathroomsCell = document.createElement('td');
+                bathroomsCell.textContent = property.bathrooms || '-';
+                row.appendChild(bathroomsCell);
+
+                // Price
+                const priceCell = document.createElement('td');
+                priceCell.textContent = property.price || '-';
+                row.appendChild(priceCell);
+
+                // Description
+                const descCell = document.createElement('td');
+                descCell.textContent = property.description.substring(0, 150) + (property.description.length > 150 ? '...' : '');
+                descCell.style.maxWidth = '300px';
+                row.appendChild(descCell);
+
+                // Amenities
+                const amenitiesCell = document.createElement('td');
+                amenitiesCell.className = 'amenities';
+                if (property.amenities && property.amenities.length > 0) {
+                    amenitiesCell.innerHTML = property.amenities
+                        .slice(0, 5)
+                        .map(amenity => `<span class="amenity-tag">${amenity}</span>`)
+                        .join(' ');
+                    if (property.amenities.length > 5) {
+                        amenitiesCell.innerHTML += `<span class="amenity-tag">+${property.amenities.length - 5} more</span>`;
+                    }
+                } else {
+                    amenitiesCell.textContent = '-';
+                }
+                row.appendChild(amenitiesCell);
+
+                // Vote buttons
+                const voteCell = document.createElement('td');
+                if (property.state !== 'not available') {
+                    voteCell.innerHTML = `
+                        <div class="vote-buttons">
+                            <button class="vote-btn yes" onclick="vote('${property._id}', '${property.name}', 'yes')">👍</button>
+                            <button class="vote-btn maybe" onclick="vote('${property._id}', '${property.name}', 'maybe')">🤔</button>
+                            <button class="vote-btn no" onclick="vote('${property._id}', '${property.name}', 'no')">👎</button>
+                        </div>
+                    `;
+                } else {
+                    voteCell.textContent = '-';
+                }
+                row.appendChild(voteCell);
+
+                // Link
+                const linkCell = document.createElement('td');
+                linkCell.innerHTML = `<a href="${property.url}" target="_blank" class="property-link">View →</a>`;
+                row.appendChild(linkCell);
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Load properties when page loads
+        loadProperties();
+    </script>
+</body>
+</html>
