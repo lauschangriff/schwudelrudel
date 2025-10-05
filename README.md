@@ -6,6 +6,21 @@ A full-stack application for managing and voting on vacation properties using Mo
 
 ### 1. Start the Backend Server
 
+#### Option A: Using Docker (Recommended)
+
+```bash
+# Build and start the backend
+docker-compose up -d
+
+# Initialize database (first time only)
+docker-compose exec backend npm run init-db
+
+# View logs
+docker-compose logs -f backend
+```
+
+#### Option B: Using Node.js directly
+
 ```bash
 cd backend
 npm install
