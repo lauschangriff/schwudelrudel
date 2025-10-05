@@ -10,8 +10,9 @@
       "lng": 11.6323437
     },
     "description": "Historic stone building from the 1100s and 1800s, 600 m² villa with 12 bedrooms for max 25 guests. Features private pool (available April 25 - October 19), 10 bathrooms, multiple kitchens, fireplaces, panoramic views of Tuscan countryside. Pet-friendly with parking for 12 vehicles. Located 2 km from Badia Agnano and 26 km from Arezzo.",
-    "capacity": "25 guests",
+    "capacity": "25",
     "bedrooms": 12,
+    "bathrooms": 10,
     "amenities": ["Pool", "WiFi", "Multiple kitchens", "Fireplace", "Dishwasher", "Outdoor terrace", "Garden", "Parking", "Pet-friendly"],
     "url": "https://www.hometogo.de/rental/753d6f211c8383b3"
   },
@@ -23,40 +24,49 @@
       "region": "Toskana",
       "country": "Italy",
       "postal_code": "52044",
-      "lat": null,
-      "lng": null
+      "lat": 43.2689534,
+      "lng": 11.9175989
     },
     "description": "Villa with garden views offering amenities like a seasonal outdoor pool, free bicycles, and various room types. High rated property (9.7/10 based on 3 reviews). Features kitchen facilities and TV/entertainment options in rooms.",
     "rating": "9.7/10",
+    "price": "9.120€",
+    "bedrooms": 10,
+    "bathrooms": null,
     "amenities": ["Seasonal outdoor pool", "Free bicycles", "Kitchen facilities", "TV/entertainment"],
     "url": "https://www.booking.com/hotel/it/il-palazzo-cortona.de.html"
   },
   {
-    "name": "Property in Croatia (p2587789)",
+    "name": "Novasol Cottage Kucice",
     "location": {
       "address": null,
       "city": null,
       "region": null,
       "country": "Croatia",
-      "lat": 45.099999,
-      "lng": 15.2
+      "lat": 43.4318444,
+      "lng": 16.8203818
     },
     "description": "Vacation rental property in Croatia. Specific details not available, but coordinates suggest location in central Croatia.",
+    "bathrooms": 8,
+    "bedrooms": 10,
+    "price": "6.168€",
     "amenities": [],
     "url": "https://www.fewo-direkt.de/ferienwohnung-ferienhaus/p2587789",
     "note": "Limited information available"
   },
   {
-    "name": "Property in Croatia (p11533586)",
+    "name": "Villa Bellatrix",
     "location": {
       "address": null,
       "city": null,
       "region": null,
       "country": "Croatia",
-      "lat": 45.099999,
-      "lng": 15.2
+      "lat": 44.261626,
+      "lng": 15.2156014
     },
     "description": "Vacation rental property in Croatia. Specific details not available, but coordinates suggest location in central Croatia.",
+    "bathrooms": 12,
+    "bedrooms": 12,
+    "price": "10.291€",
     "amenities": [],
     "url": "https://www.fewo-direkt.de/ferienwohnung-ferienhaus/p11533586",
     "note": "Limited information available"
@@ -71,9 +81,10 @@
       "lat": 43.359083,
       "lng": 10.529056
     },
-    "description": "Spacious 80m² independent apartment with private porch, garden access, fully equipped kitchen, TV, sofa, bathroom with shower, and two bedrooms (one matrimonial on ground floor, another with matrimonial bed and two single beds upstairs). Features air conditioning and accommodates up to 6 people.",
+    "description": "Man kann nicht mehr als 11 Personen sein",
     "capacity": "6 guests",
     "bedrooms": 2,
+    "bathrooms": 1,
     "amenities": ["Air conditioning", "Laundry machine", "Bed and bath linens", "Free parking", "Pool and solarium (seasonal)", "Wi-Fi", "Television"],
     "url": "https://www.ilnazareno.com/agriturismo/la-civetta/"
   },
@@ -84,26 +95,31 @@
       "city": null,
       "region": null,
       "country": "Italy",
-      "lat": null,
-      "lng": null
+      "lat": 43.8418291,
+      "lng": 12.6711511
     },
     "description": "Property details could not be fully extracted from the listing.",
+    "bathrooms": null,
     "amenities": [],
+    "state": "not available",
     "url": "https://www.airbnb.at/rooms/18230591",
     "note": "Limited information available"
   },
   {
-    "name": "Wunderschönes Bauernhaus im Grünen",
+    "name": "Agriturismo La Ferraia",
     "location": {
       "address": null,
       "city": "Cagli",
       "province": "Pesaro Urbino",
       "region": null,
       "country": "Italy",
-      "lat": null,
-      "lng": null
+      "lat": 43.5044459,
+      "lng": 12.5354637
     },
     "description": "Beautiful farmhouse in the green countryside near Cagli in the Pesaro Urbino province.",
+    "bathrooms": null,
+    "price": "9.082€",
+    "bedrooms": 9,
     "amenities": [],
     "url": "https://www.airbnb.de/rooms/5984765",
     "note": "Limited information available"
@@ -115,12 +131,15 @@
       "city": "Manciano",
       "region": "Toskana",
       "country": "Italy",
-      "lat": null,
-      "lng": null
+      "lat": 42.5993109,
+      "lng": 11.4550021
     },
     "description": "Villa with glorious views that can accommodate 18 guests in Tuscany.",
     "capacity": "18 guests",
+    "bathrooms": null,
+    "bedrooms": 10,
     "amenities": [],
+    "price": "13.316 €",
     "url": "https://www.airbnb.de/rooms/11518427",
     "note": "Limited information available"
   },
@@ -148,11 +167,14 @@
       "city": "Montefiascone",
       "region": null,
       "country": "Italy",
-      "lat": null,
-      "lng": null
+      "lat": 42.54462,
+      "lng": 12.0849322
     },
     "description": "Property details could not be fully extracted from the listing.",
+    "bathrooms": 7.5,
+    "bedrooms": 9,
     "amenities": [],
+    "price": "6 976,00 €",
     "url": "https://www.airbnb.at/rooms/1083234848848404774",
     "note": "Limited information available"
   },
@@ -166,8 +188,10 @@
       "lat": null,
       "lng": null
     },
-    "description": "Large farmhouse with pool located 3 km from the sea, sleeps 18+ people in Tuscany.",
+    "description": "Nicht mehr verfügbar",
+    "state": "not available",
     "capacity": "18+ guests",
+    "bathrooms": null,
     "amenities": ["Pool"],
     "url": "https://www.airbnb.at/rooms/1751075",
     "note": "3 km to sea"
@@ -179,10 +203,13 @@
       "city": "Lucca",
       "region": "Toskana",
       "country": "Italy",
-      "lat": null,
-      "lng": null
+      "lat": 43.894427,
+      "lng": 10.4295354
     },
-    "description": "Property details could not be fully extracted from the listing.",
+    "description": "Man kann nicht 7 Kinder über 2 Jahren eingeben ?",
+    "bedrooms": 10,
+    "bathrooms": 7,
+    "price": "7 976,75€",
     "amenities": [],
     "url": "https://www.airbnb.at/rooms/947164531345555363",
     "note": "Limited information available"
@@ -200,6 +227,8 @@
     "description": "Charming country house with large pool, free Wi-Fi, and grill located near Cinque Terre in Fivizzano. Features 12 bedrooms accommodating up to 20 people. Located in the historic Lunigiana region with medieval castles.",
     "capacity": "20 guests",
     "bedrooms": 12,
+    "bathrooms": 6,
+    "price": "16.040€",
     "amenities": ["Pool", "WiFi", "Grill", "Fireplace", "TV", "Parking", "Pet-friendly", "Non-smoking"],
     "url": "https://www.fewo-direkt.de/ferienwohnung-ferienhaus/p8929857",
     "note": "Near Cinque Terre"
@@ -215,6 +244,9 @@
       "lng": 11.255576
     },
     "description": "Vacation rental property in Tuscany. Specific details not available, but coordinates suggest location in central Tuscany.",
+    "bathrooms": 9,
+    "bedrooms": 9,
+    "price": "10.182€",
     "amenities": [],
     "url": "https://www.fewo-direkt.de/ferienwohnung-ferienhaus/p434055",
     "note": "Limited information available"
@@ -231,6 +263,7 @@
     },
     "description": "Spacious 750 m² villa with 9 bedrooms, accommodating up to 18 guests. Features private pool (15 x 5 m), garden (4000 sq m), and panoramic hill views. Pet-friendly with modern amenities including WiFi, kitchen, and air conditioning.",
     "capacity": "18 guests",
+    "price": "12.230,40€",
     "bedrooms": 9,
     "bathrooms": 10,
     "amenities": ["Private pool", "WiFi", "Air conditioning", "Kitchen", "Grill", "Garden", "Pet-friendly"],
@@ -247,7 +280,8 @@
       "lng": 13.5472058
     },
     "description": "Spacious 350 m² farmhouse accommodating up to 20 guests with 8 bedrooms and 7 bathrooms. Features three separate apartments (Melograno, Girasole, and Glicine) with panoramic views of the Marchigian hills and surrounding landscape. Shared pool and family-friendly.",
-    "capacity": "20 guests",
+    "price": "11.609,92",
+    "capacity": "20",
     "bedrooms": 8,
     "bathrooms": 7,
     "amenities": ["Shared pool", "Whirlpool", "Barbecue", "Kitchen", "Air conditioning", "Pet-friendly", "Family-friendly", "WiFi", "Heating"],
